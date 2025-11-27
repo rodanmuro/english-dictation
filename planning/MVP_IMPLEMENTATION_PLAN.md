@@ -1,5 +1,25 @@
 # MVP Implementation Plan - English Dictation App
 
+## Project Goal
+
+The English Dictation App is a web-based learning tool designed to help users improve their English listening comprehension and typing skills through interactive dictation practice using YouTube videos.
+
+### What the App Does:
+1. **User submits a YouTube URL** - Any educational or English-language video
+2. **Automatic processing** - The app downloads the audio and generates accurate subtitles using AI transcription (Deepgram)
+3. **Interactive practice** - Users listen to short video segments and type what they hear, receiving real-time character-by-character validation
+4. **Immediate feedback** - The app validates typing accuracy instantly, tracks errors, and guides users through each segment
+
+### Target Users:
+- English language learners who want to improve listening skills
+- Students practicing dictation and typing accuracy
+- Anyone wanting to learn English through authentic YouTube content
+
+### Key Value Proposition:
+Turn any YouTube video into an interactive English learning exercise with AI-powered transcription and instant feedback - no manual subtitle creation needed.
+
+---
+
 ## Architecture Decisions
 
 - ✅ **Storage:** SRT files saved to filesystem (`app/static/audios/*.srt`)
