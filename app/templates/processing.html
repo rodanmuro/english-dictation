@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Processing · English Dictation{% endblock %}
+
+{% block content %}
+  <section class="section">
+    <h1 class="title">Processing Video</h1>
+    <p class="subtitle">We are preparing your dictation exercise.</p>
+
+    <div class="processing-card">
+      <div class="loader" aria-hidden="true"></div>
+      <div id="status" class="status">Starting…</div>
+    </div>
+
+    <p class="hint">This may take a minute depending on the video length.</p>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  window.VIDEO_ID = "{{ video_id }}";
+  window.STATUS_ENDPOINT = `/api/video/${window.VIDEO_ID}/status`;
+  window.DESTINATION = `/dictation/${window.VIDEO_ID}`;
+  window.PROCESSING_TEXTS = {
+    downloading: 'Downloading audio…',
+    transcribing: 'Transcribing with Deepgram…',
+    processing: 'Processing…',
+    completed: 'Completed! Redirecting…',
+    error: 'An error occurred while processing.'
+  };
+  window.PAGE_CONTEXT = 'processing';
+</script>
+<script src="{{ url_for('static', path='js/processing.js') }}"></script>
+{% endblock %}
+

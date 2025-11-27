@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block title %}Home · English Dictation{% endblock %}
+
+{% block content %}
+  <section class="section">
+    <h1 class="title">English Dictation</h1>
+    <p class="subtitle">Turn any YouTube video into an interactive dictation exercise.</p>
+
+    <form id="startForm" class="card">
+      <label for="youtubeUrl" class="label">YouTube URL</label>
+      <input id="youtubeUrl" name="youtube_url" type="url" class="input" placeholder="https://www.youtube.com/watch?v=..." required />
+      <button type="submit" class="button primary">Start Practice</button>
+    </form>
+
+    <div id="error" class="error" hidden></div>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+  const form = document.getElementById('startForm');
+  const errorEl = document.getElementById('error');
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    errorEl.hidden = true;
+    const youtube_url = document.getElementById('youtubeUrl').value.trim();
+    if (!youtube_url) return;
+    try {
+      const res = await fetch('/api/process-video', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ youtube_url })
+      });
+      if (!res.ok) {
+        let msg = 'Failed to start processing';
+        try { const data = await res.json(); msg = data.detail || msg; } catch {}
+        throw new Error(msg);
+      }
+      const data = await res.json();
+      if (data.video_id) {
+        window.location.href = `/processing/${data.video_id}`;
+      } else if (data.status === 'completed' && data.video_id) {
+        window.location.href = `/dictation/${data.video_id}`;
+      } else {
+        throw new Error('Unexpected server response');
+      }
+    } catch (err) {
+      errorEl.textContent = err?.message || String(err);
+      errorEl.hidden = false;
+    }
+  });
+</script>
+{% endblock %}
+
