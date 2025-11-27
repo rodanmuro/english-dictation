@@ -1,0 +1,10 @@
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+jinja2>=3.1.2
+python-multipart>=0.0.6
+yt-dlp>=2024.0.0
+deepgram-sdk>=3.0.0
+deepgram-captions>=1.0.0
+python-dotenv>=1.0.0
+aiofiles>=23.0.0
+pydantic-settings>=2.0.0
